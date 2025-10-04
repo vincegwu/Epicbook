@@ -1,35 +1,24 @@
 "use strict";
 
+const express = require("express");
+const router = express.Router();
 const db = require("../models");
-module.exports = function (app) {
-  app.post("/api/cart", async function (req, res) {
-    const book = await db.Book.findByPk(req.body.bookId);
-    if (!book) {
-    // TODO: respond error
-    }
 
-    const cart = await db.Cart.create({
-      price: book.dataValues.price
-    });
+console.log("🔗 Cart API routes loaded");
 
-    cart.addBook(book);
-    res.json({
-      ...cart.dataValues,
-      book: book
-    });
-  });
+// GET all cart items
+router.get("/", async (req, res) => {
+  console.log("📌 GET /api/cart called");
 
-  app.get("/api/cart",async function (req, res) {
-    const book = await db.Book.findByPk(req.body.bookId);
-    console.log(book);
-    const carts = await db.Cart.findAll({});
-    res.json({
-      cart:carts,
-      book: book
-    });
-  });
+  try {
+    const carts = await db.Cart.findAll();
+    console.log(`✅ Retrieved ${carts.length} cart items`);
+    res.json(carts);
+  } catch (err) {
+    console.error("❌ Error fetching carts:", err);
+    res.status(500).json({ error: "Failed to fetch carts" });
+  }
+});
 
-  app.delete("/api/cart/delete", async () => {
-    await db.Cart.destroy({ where: {}, truncate: false });
-  });
-};
+module.exports = router;
+

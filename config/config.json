@@ -1,11 +1,12 @@
 {
   "development": {
-    "username": "root",
-    "password": "demo1234",
-    "database": "bookstore",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
+  "username": "epicuser@epicbook-mysql-dev",
+  "password": "Berry123!@",
+  "database": "bookstore",
+  "host": "epicbook-mysql-dev.mysql.database.azure.com",
+  "dialect": "mysql",
+  "port": 3306
+},
   "test": {
     "username": "root",
     "password": null,
